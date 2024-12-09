@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".EditGoodsInStockFragment">
+    <EditText
+        android:id="@+id/etGoodInStockName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:ems="10"
+        android:hint="Название товара"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/etGoodCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:ems="10"
+        android:hint="Количество товара"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/etGoodPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:ems="10"
+        android:hint="Стоимость товара"
+        android:inputType="number|numberDecimal" />
+
+    <EditText
+        android:id="@+id/etGoodTypeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:enabled="false"
+        android:ems="10"
+        android:hint="Типа товара"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/btSelectGoodTypeAndSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:text="Выбрать тип товара и сохранить" />
+
+    <Button
+        android:id="@+id/btSaveGoodInStock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:text="Сохранить" />
+
+</LinearLayout>
