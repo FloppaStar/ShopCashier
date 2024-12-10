@@ -22,6 +22,7 @@ class GoodsInCartAdapter(
         val tvGoodsInStockType = itemView.findViewById<TextView>(R.id.tvGoodsInStockType)
         val tvGoodsAddedCount = itemView.findViewById<TextView>(R.id.tvGoodsAddedCount)
         val tvGoodsInStockPrice = itemView.findViewById<TextView>(R.id.tvGoodsInStockPrice)
+        val tvGoodsInStockCount = itemView.findViewById<TextView>(R.id.tvGoodsInStockCount)
         val btRemove = itemView.findViewById<ImageView>(R.id.imRemove)
         val btAdd = itemView.findViewById<ImageView>(R.id.imAdd)
     }
@@ -41,13 +42,13 @@ class GoodsInCartAdapter(
         holder.tvGoodsInStockType.text = repository.getGoodsTypeName(goodsInStock.goodsTypeId)
         holder.tvGoodsAddedCount.text = repository.getGoodsCountInCart(goodsInStock.goodId, saleId).toString()
         holder.tvGoodsInStockPrice.text = "Стоимость: ${goodsInStock.price.toString()} руб."
+        holder.tvGoodsInStockCount.text = "На складе: ${goodsInStock.goodsCount.toString()} шт."
         holder.btAdd.setOnClickListener {
             val success = repository.addGoodsToCart(goodsInStock.goodId, saleId)
             if (success) {
                 GoodsInStockAddListener(goodsInStock, position)
                 notifyItemChanged(position)
             } else {
-                // Вывести сообщение о том, что нельзя добавить больше товаров
                 Toast.makeText(holder.itemView.context, "На складе недостаточно товаров", Toast.LENGTH_SHORT).show()
             }
         }

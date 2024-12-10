@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import ru.floppastar.shopcashier.DataClasses.GoodsInStock
 import ru.floppastar.shopcashier.DataClasses.GoodsType
 import ru.floppastar.shopcashier.db.DatabaseHelper
@@ -45,16 +46,28 @@ class EditGoodsInStockFragment(var good: GoodsInStock?) : Fragment() {
         else
             btSave.isEnabled = true
         btSelectAndSave.setOnClickListener {
-            saveData()
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainerViewMain, SelectGoodTypeFragment(good!!))
-                .addToBackStack("da2")
-                .commit()
+            if (emptyCheck()) {
+                saveData()
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainerViewMain, SelectGoodTypeFragment(good!!))
+                    .addToBackStack("da2")
+                    .commit()
+            }
         }
         btSave.setOnClickListener {
-            saveData()
-            repository.editGoodsInStock(good!!)
-            parentFragmentManager.popBackStack()
+            if (emptyCheck()) {
+                saveData()
+                repository.editGoodsInStock(good!!)
+                parentFragmentManager.popBackStack()
+            }
+        }
+    }
+    private fun emptyCheck(): Boolean{
+        if (!name.text.isEmpty() && !goodsCount.text.isEmpty() && !price.text.isEmpty())
+            return true
+        else {
+            Toast.makeText(context, "Введите остальные данные", Toast.LENGTH_SHORT).show()
+            return false
         }
     }
     private fun saveData(){

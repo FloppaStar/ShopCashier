@@ -5,6 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".EditGoodsInStockFragment">
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/lightGreen"
+        android:gravity="center"
+        android:text="Редактирование товара"
+        android:textSize="24sp"/>
     <EditText
         android:id="@+id/etGoodInStockName"
         android:layout_width="match_parent"
@@ -57,7 +65,8 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
-        android:text="Выбрать тип товара и сохранить" />
+        android:text="Выбрать тип товара и сохранить"
+        android:backgroundTint="@color/lightBlue"/>
 
     <Button
         android:id="@+id/btSaveGoodInStock"
@@ -66,6 +75,7 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
-        android:text="Сохранить" />
+        android:text="Сохранить"
+        android:backgroundTint="@color/lightBlue"/>
 
 </LinearLayout>

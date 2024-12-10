@@ -14,7 +14,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tabIndicatorAnimationMode="elastic"
-        app:tabMode="fixed">
+        app:tabMode="fixed"
+        app:tabIndicatorColor="@color/lightBlue"
+        app:tabTextColor="@color/lightBlue">
 
     </com.google.android.material.tabs.TabLayout>
 

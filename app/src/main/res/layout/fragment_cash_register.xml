@@ -4,31 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CashRegisterFragment">
+    tools:context=".CashRegisterFragment"
+    android:background="@color/lightGray">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/goodsInCartRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="85dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:listitem="@layout/goods_in_cart_item"/>
+        tools:listitem="@layout/goods_in_cart_item"
+        android:background="@color/white"/>
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:textSize="20dp"
         android:text="Общая стоимость: 0 рублей"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/goodsInCartRecyclerView" />
 
     <Button
         android:id="@+id/btSell"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:backgroundTint="@color/lightBlue"
         android:text="Совершить продажу"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 

@@ -31,12 +31,8 @@ class GoodsTypeFragment : Fragment() {
         recyclerView = view.findViewById(R.id.goodsTypeRecyclerView)
         goodsTypeList = repository.getAllGoodsType()
         goodsTypeAdapter = GoodsTypeAdapter(goodsTypeList, { position ->
-            repository.deleteGoodsType(goodsTypeList[position].goodsTypeId)
+            repository.deleteGoodsType(goodsTypeList[position].goodsTypeId, requireContext())
         }, { goodsType, position ->
-//            childFragmentManager.beginTransaction()
-//                .replace(R.id.fragmentContainerViewMain, EditGoodsTypeFragment(goodsType))
-//                .addToBackStack("da")
-//                .commit()
             (activity as? MainActivity)?.openEditGoodsTypeFragment(goodsType)
         })
 
@@ -45,10 +41,6 @@ class GoodsTypeFragment : Fragment() {
         val btAddGoodsType = view.findViewById<FloatingActionButton>(R.id.fabAddGoodsType)
         btAddGoodsType.setOnClickListener {
             (activity as? MainActivity)?.openEditGoodsTypeFragment(null)
-//            parentFragmentManager.beginTransaction()
-//                .replace(R.id.fragmentContainerViewTab, EditGoodsTypeFragment(null))
-//                .addToBackStack("da")
-//                .commit()
         }
     }
 }

@@ -54,7 +54,6 @@ class CashRegisterFragment : Fragment() {
         val success = repository.completeSale(saleId)
         if (success) {
             Toast.makeText(context, "Продажа завершена успешно", Toast.LENGTH_SHORT).show()
-            // Обновить список товаров и UI
             goodsInStockList = repository.getAllGoodsInStock()
             goodsInCartAdapter.goodsInStockList = goodsInStockList
             goodsInCartAdapter.saleId = repository.getOrCreateSaleId()
