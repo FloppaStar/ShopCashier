@@ -45,12 +45,16 @@ class CashRegisterFragment : Fragment() {
         btSell.setOnClickListener {
             completeSale()
         }
-
         updateTotalCost()
     }
 
     private fun completeSale() {
         val saleId = goodsInCartAdapter.saleId
+        val goodsCount = repository.getGoodsCountInCart(saleId)
+        if (goodsCount == 0) {
+            Toast.makeText(context, "Выберите товары", Toast.LENGTH_SHORT).show()
+            return
+        }
         val success = repository.completeSale(saleId)
         if (success) {
             Toast.makeText(context, "Продажа завершена успешно", Toast.LENGTH_SHORT).show()
@@ -64,12 +68,15 @@ class CashRegisterFragment : Fragment() {
         }
     }
 
+    fun formatPrice(price: Double): String {
+        return String.format("%.2f", price)
+    }
+
     private fun updateTotalCost() {
         val totalCost = goodsInStockList.sumOf { goodsInStock ->
             val count = repository.getGoodsCountInCart(goodsInStock.goodId, goodsInCartAdapter.saleId)
             goodsInStock.price * count
         }
-
-        view?.findViewById<TextView>(R.id.textView)?.text = "Общая стоимость: $totalCost рублей"
+        view?.findViewById<TextView>(R.id.textView)?.text = "Общая стоимость: ${formatPrice(totalCost)} рублей"
     }
 }

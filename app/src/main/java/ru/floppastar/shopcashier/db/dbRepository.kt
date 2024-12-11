@@ -52,7 +52,7 @@ class dbRepository(private val dbHelper: DatabaseHelper) {
         db.close()
     }
 
-    fun deleteGoodsType(goodsTypeId: Int, context: Context): Boolean {
+    fun deleteGoodsType(goodsTypeId: Int, context: Context) {
         var db = dbHelper.readableDatabase
         val query = "SELECT COUNT(*) FROM ${DatabaseHelper.TABLE_GOODS_IN_STOCK} WHERE ${DatabaseHelper.COLUMN_GOODS_IN_STOCK_TYPE} = ?"
         val cursor = db.rawQuery(query, arrayOf(goodsTypeId.toString()))
@@ -64,7 +64,7 @@ class dbRepository(private val dbHelper: DatabaseHelper) {
         db.close()
         if (count > 0){
             Toast.makeText(context, "Невозможно удалить тип товара, так как он используется в одном или нескольких товарах", Toast.LENGTH_SHORT).show()
-            return false
+            return
         }
         db = dbHelper.writableDatabase
         db.delete(
@@ -72,7 +72,6 @@ class dbRepository(private val dbHelper: DatabaseHelper) {
             "${DatabaseHelper.COLUMN_GOODS_TYPE_ID} = $goodsTypeId", null
         )
         db.close()
-        return true
     }
 
     fun insertGoodsInStock(name: String, goodsCount: Int, price: Double, goodsTypedId: Int) {
@@ -227,6 +226,16 @@ class dbRepository(private val dbHelper: DatabaseHelper) {
     fun getGoodsCountInCart(goodId: Int, saleId: Int): Int {
         val db = dbHelper.readableDatabase
         val cursor = db.rawQuery("SELECT COUNT(*) FROM ${DatabaseHelper.TABLE_GOODS_SOLD} WHERE ${DatabaseHelper.COLUMN_GOODS_SOLD_GOOD} = ? AND ${DatabaseHelper.COLUMN_GOODS_SOLD_SALE} = ?", arrayOf(goodId.toString(), saleId.toString()))
+        return if (cursor.moveToFirst()) {
+            cursor.getInt(0)
+        } else {
+            0
+        }
+    }
+
+    fun getGoodsCountInCart(saleId: Int): Int {
+        val db = dbHelper.readableDatabase
+        val cursor = db.rawQuery("SELECT COUNT(*) FROM ${DatabaseHelper.TABLE_GOODS_SOLD} WHERE ${DatabaseHelper.COLUMN_GOODS_SOLD_SALE} = ?", arrayOf(saleId.toString()))
         return if (cursor.moveToFirst()) {
             cursor.getInt(0)
         } else {
