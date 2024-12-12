@@ -55,7 +55,7 @@
         android:layout_marginRight="15dp"
         android:enabled="false"
         android:ems="10"
-        android:hint="Типа товара"
+        android:hint="Тип товара"
         android:inputType="text" />
 
     <Button
