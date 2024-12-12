@@ -3,48 +3,31 @@ package ru.floppastar.shopcashier.Adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.floppastar.shopcashier.DataClasses.GoodsType
 import ru.floppastar.shopcashier.R
 
+
 class GoodsTypeAdapter(
-    var goodsTypeList: MutableList<GoodsType>,
-    private val GoodsTypeDeleteListener: (Int) -> Unit,
-    private val GoodsTypeEditListener: (GoodsType, Int) -> Unit)
-    : RecyclerView.Adapter<GoodsTypeAdapter.ViewHolder>() {
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvGoodsTypeName = itemView.findViewById<TextView>(R.id.tvGoodsTypeName)
-        val btEdit = itemView.findViewById<ImageView>(R.id.imEdit)
-        val btDelete = itemView.findViewById<ImageView>(R.id.imDelete)
-    }
+    private val goodsTypeList: MutableList<GoodsType>,
+    private val itemClickListener: (GoodsType) -> Unit) : BaseAdapter() {
+    override fun getCount(): Int = goodsTypeList.size
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.goods_type_item, parent, false)
-        return ViewHolder(view)
-    }
+    override fun getItem(position: Int): GoodsType = goodsTypeList[position]
 
-    override fun getItemCount(): Int {
-        return goodsTypeList.size
-    }
+    override fun getItemId(position: Int): Long = position.toLong()
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        var goodsType = goodsTypeList[position]
-        holder.tvGoodsTypeName.text = goodsType.name
-        holder.btDelete.setOnClickListener {
-            GoodsTypeDeleteListener(position)
-            goodsTypeList.removeAt(position)
-            notifyItemRemoved(position)
-            update(goodsTypeList)
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        val view: View = convertView ?: LayoutInflater.from(parent?.context).inflate(R.layout.goods_type_item, parent, false)
+        val goodsTypeName = view.findViewById<TextView>(R.id.tvGoodsTypeName)
+        val goodsType = getItem(position)
+        goodsTypeName.text = goodsType.name
+        view.setOnClickListener {
+            itemClickListener(goodsType)
         }
-        holder.btEdit.setOnClickListener {
-            GoodsTypeEditListener(goodsType, position)
-            notifyItemChanged(position)
-        }
-    }
-    fun update(newList: MutableList<GoodsType>) {
-        goodsTypeList = newList
-        notifyDataSetChanged()
+        return view
     }
 }

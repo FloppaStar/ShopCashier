@@ -1,10 +1,7 @@
 package ru.floppastar.shopcashier.db
 
 import android.content.ContentValues
-import android.content.Context
 import android.database.Cursor
-import android.provider.ContactsContract.Data
-import android.widget.Toast
 import ru.floppastar.shopcashier.DataClasses.GoodsInStock
 import ru.floppastar.shopcashier.DataClasses.GoodsType
 import java.text.SimpleDateFormat
@@ -52,7 +49,7 @@ class dbRepository(private val dbHelper: DatabaseHelper) {
         db.close()
     }
 
-    fun deleteGoodsType(goodsTypeId: Int, context: Context) {
+    fun deleteGoodsType(goodsTypeId: Int): Boolean {
         var db = dbHelper.readableDatabase
         val query = "SELECT COUNT(*) FROM ${DatabaseHelper.TABLE_GOODS_IN_STOCK} WHERE ${DatabaseHelper.COLUMN_GOODS_IN_STOCK_TYPE} = ?"
         val cursor = db.rawQuery(query, arrayOf(goodsTypeId.toString()))
@@ -62,16 +59,15 @@ class dbRepository(private val dbHelper: DatabaseHelper) {
         }
         cursor.close()
         db.close()
-        if (count > 0){
-            Toast.makeText(context, "Невозможно удалить тип товара, так как он используется в одном или нескольких товарах", Toast.LENGTH_SHORT).show()
-            return
-        }
+        if (count > 0)
+            return false
         db = dbHelper.writableDatabase
         db.delete(
             DatabaseHelper.TABLE_GOODS_TYPE,
             "${DatabaseHelper.COLUMN_GOODS_TYPE_ID} = $goodsTypeId", null
         )
         db.close()
+        return true
     }
 
     fun insertGoodsInStock(name: String, goodsCount: Int, price: Double, goodsTypedId: Int) {
@@ -90,7 +86,6 @@ class dbRepository(private val dbHelper: DatabaseHelper) {
         val db = dbHelper.readableDatabase
         val cursor = db.rawQuery("SELECT * FROM ${DatabaseHelper.TABLE_GOODS_IN_STOCK}", null)
         val goodsInStock = mutableListOf<GoodsInStock>()
-
         with(cursor) {
             while (moveToNext()) {
                 val goodId = getInt(getColumnIndexOrThrow(DatabaseHelper.COLUMN_GOODS_IN_STOCK_ID))

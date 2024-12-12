@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.GridView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ru.floppastar.shopcashier.Adapters.GoodsTypeAdapter
@@ -13,7 +14,7 @@ import ru.floppastar.shopcashier.db.DatabaseHelper
 import ru.floppastar.shopcashier.db.dbRepository
 
 class GoodsTypeFragment : Fragment() {
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var gridView: GridView
     private lateinit var repository: dbRepository
     private lateinit var goodsTypeAdapter: GoodsTypeAdapter
     private var goodsTypeList: MutableList<GoodsType> = mutableListOf()
@@ -28,15 +29,13 @@ class GoodsTypeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         repository = dbRepository(DatabaseHelper(view.context))
-        recyclerView = view.findViewById(R.id.goodsTypeRecyclerView)
+        gridView = view.findViewById(R.id.goodsTypeGridView)
         goodsTypeList = repository.getAllGoodsType()
-        goodsTypeAdapter = GoodsTypeAdapter(goodsTypeList, { position ->
-            repository.deleteGoodsType(goodsTypeList[position].goodsTypeId, requireContext())
-        }, { goodsType, position ->
+        goodsTypeAdapter = GoodsTypeAdapter(goodsTypeList) { goodsType ->
             (activity as? MainActivity)?.openEditGoodsTypeFragment(goodsType)
-        })
+        }
 
-        recyclerView.adapter = goodsTypeAdapter
+        gridView.adapter = goodsTypeAdapter
 
         val btAddGoodsType = view.findViewById<FloatingActionButton>(R.id.fabAddGoodsType)
         btAddGoodsType.setOnClickListener {

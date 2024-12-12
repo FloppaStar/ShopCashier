@@ -4,14 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".GoodsTypeFragment"
-    android:id="@+id/fragmentContainerViewTab">
+    tools:context=".GoodsTypeFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/goodsTypeRecyclerView"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+    <GridView
+        android:id="@+id/goodsTypeGridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:numColumns="2"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:stretchMode="columnWidth"
         tools:listitem="@layout/goods_type_item"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

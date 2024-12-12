@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
+import androidx.core.view.isVisible
 import ru.floppastar.shopcashier.DataClasses.GoodsType
 import ru.floppastar.shopcashier.db.DatabaseHelper
 import ru.floppastar.shopcashier.db.dbRepository
@@ -26,11 +28,14 @@ class EditGoodsTypeFragment(var goodType: GoodsType?) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         name = view.findViewById(R.id.etGoodsTypeName)
+        val btSave = view.findViewById<Button>(R.id.btSaveGoodsType)
+        val btDelete = view.findViewById<Button>(R.id.btDeleteGoodsType)
         if (goodType != null)
             initializeFragment()
-        else
+        else {
             goodType = GoodsType(0, "")
-        val btSave = view.findViewById<Button>(R.id.btSaveGoodsType)
+            btDelete.isVisible = false
+        }
         repository = dbRepository(DatabaseHelper(view.context))
         btSave.setOnClickListener {
             saveData()
@@ -44,6 +49,11 @@ class EditGoodsTypeFragment(var goodType: GoodsType?) : Fragment() {
             catch (e: Exception){
                 Log.d("uwu", "Error ${e.message}")
             }
+        }
+        btDelete.setOnClickListener{
+            if (!repository.deleteGoodsType(goodType!!.goodsTypeId))
+                Toast.makeText(context, "Невозможно удалить тип товара, так как он используется в одном или нескольких товарах", Toast.LENGTH_SHORT).show()
+            parentFragmentManager.popBackStack()
         }
     }
     private fun saveData(){
